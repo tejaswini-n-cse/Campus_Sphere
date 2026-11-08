@@ -117,3 +117,117 @@ graph TD
     AcademicEngine --> HybridStore
     HybridStore -.-> RLS
     RLS --> Postgres
+
+    🗄️ Database Design & ER Diagram
+The database utilizes a normalized relational schema with foreign key constraints and Row Level Security (RLS) policies:
+Diagram
+Mermaid diagram
+📋 Database Schema & Key Columns
+Table Name	Primary Key	Foreign Keys	Key Columns	Purpose
+departments	id (UUID)	None	code, name, hod_name	Academic branch catalog (CSE, ECE, MECH)
+profiles	id (UUID)	auth.users(id)	email, first_name, role	Base user identity and role assignment
+student_profiles	id (UUID)	profile_id, department_id	registration_number, cgpa, skills	Extended academic record for students
+faculty_profiles	id (UUID)	profile_id, department_id	employee_code, designation	Academic credentials and assignments
+attendance	id (UUID)	subject_id, student_id	date, status (present/absent/late)	Session-by-session student presence log
+job_openings	id (UUID)	company_id	package_lpa, min_cgpa, required_skills	Corporate hiring drives & criteria
+placement_applications	id (UUID)	job_id, student_id	stage, applied_at	Candidate hiring pipeline stages
+🧠 Intelligent Engines
+1. Automated Attendance Defaulter Alert Engine
+The system audits attendance records mathematically rather than relying on manual reporting:
+Attendance Rate
+=
+(
+Sessions Attended
+Total Sessions Scheduled
+)
+×
+100
+Attendance Rate=( 
+Total Sessions Scheduled
+Sessions Attended
+​
+ )×100
+Threshold: Set to 75%.
+Action: Students with an attendance rate below 75% are dynamically flagged as Critical in the Administrator Console and assigned a warning badge on their student dashboard.
+2. Deterministic Placement Eligibility & Skill Gap Matcher
+When a student evaluates an open job posting, CampusSphere executes an automated evaluation pipeline:
+Diagram
+Mermaid diagram
+💻 Tech Stack
+Frontend Framework: React 18 (TypeScript)
+Application Bundler: Vite 5
+Styling Architecture: Tailwind CSS 3
+Iconography: Lucide React
+Data Visualization: Recharts (Dynamic Bar & Area Charts)
+Database & Auth: PostgreSQL via Supabase
+State Management: React Context API
+📁 Project Directory Structure
+Text
+campussphere/
+├── screenshots/                     # Preview images for repository documentation
+│   ├── admin-dashboard.png
+│   ├── student-dashboard.png
+│   ├── faculty-dashboard.png
+│   └── placement-dashboard.png
+├── supabase/
+│   ├── schema.sql                   # Normalized PostgreSQL DDL & RLS policies
+│   └── seed.sql                     # Comprehensive campus seed data
+├── src/
+│   ├── types/
+│   │   └── index.ts                 # TypeScript interfaces and model types
+│   ├── lib/
+│   │   └── supabase.ts              # Data provider and repository state
+│   ├── services/
+│   │   └── intelligenceEngine.ts    # Rule engines (Defaulters & Placement Matcher)
+│   ├── contexts/
+│   │   └── AuthContext.tsx          # Multi-role authentication & instant switcher
+│   ├── components/
+│   │   └── layout/
+│   │       ├── Navbar.tsx           # Global header with instant role switcher
+│   │       └── DashboardLayout.tsx  # Master container
+│   ├── pages/
+│   │   ├── admin/
+│   │   │   └── AdminDashboard.tsx   # Student CRUD, KPIs, Defaulters list
+│   │   ├── student/
+│   │   │   └── StudentDashboard.tsx # CGPA radar, job applications, submissions
+│   │   ├── faculty/
+│   │   │   └── FacultyDashboard.tsx # Interactive attendance sheet manager
+│   │   └── placement/
+│   │       └── PlacementDashboard.tsx# Corporate drives, applicant stage updater
+│   ├── App.tsx                      # Root component
+│   ├── main.tsx                     # Vite entry point
+│   └── index.css                    # Tailwind utility directives
+├── package.json
+└── README.md
+⚡ Installation & Setup
+Prerequisites
+Node.js: v18.0.0 or higher
+npm: v9.0.0 or higher
+1. Clone the Repository
+Bash
+git clone https://github.com/your-username/campussphere.git
+cd campussphere
+2. Install Dependencies
+Bash
+npm install
+3. Launch Development Server
+Bash
+npm run dev
+Open your browser and navigate to:
+Text
+http://localhost:5173
+🧪 Interactive Testing Guide
+CampusSphere includes an Instant Role Switcher in the top navigation bar, allowing you to test all four user roles without configuring credentials:
+Test Administrator:
+Navigate to the Enrol New Student Record form, enter student details, and click Save Student to test real-time state insertion.
+Inspect the Attendance Flagged (<75%) card to view students automatically caught by the rule engine.
+Test Faculty Member:
+Toggle attendance buttons (Present, Late, Absent) on the student roster.
+Click Save Attendance to persist session records.
+Test Student:
+View your CGPA trajectory chart and check your attendance rate.
+Browse the Placement Openings section. Notice how ineligible jobs display explicit reasons (e.g., minimum CGPA requirements) and recommend specific skills to improve.
+Click Apply Now on qualified listings.
+Test Placement Officer:
+Open the Student Placement Pipeline.
+Change an applicant's selection stage from Applied to Shortlisted, Interview, or Selected
