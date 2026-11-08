@@ -25,12 +25,6 @@ An integrated campus management ecosystem connecting Students, Faculty Members, 
 
 </div>
 
-#Demo
-
-
-
-Uploading demo1.mp4…
-
 
 
 ---
