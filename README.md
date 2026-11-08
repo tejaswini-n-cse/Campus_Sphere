@@ -29,6 +29,13 @@ An integrated campus management ecosystem connecting Students, Faculty Members, 
 
 ---
 
+#Demo
+
+
+https://github.com/user-attachments/assets/5909e918-5734-458a-ad8f-e43b08cec350
+
+
+
 # 📌 System Overview
 
 **CampusSphere** is a centralized Intelligent Campus Management Ecosystem designed to simplify and modernize academic and administrative operations within educational institutions.
